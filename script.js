@@ -1,94 +1,122 @@
 "use strict";
 
-const comPlayer = Math.floor(Math.random() * 3) + 1;
-const rock = document.querySelector(".rock");
-const scissor = document.querySelector(".scissors");
-const paper = document.querySelector(".paper");
-const player1 = document.querySelector("#player1");
-const player2 = document.querySelector("#player2");
-const win = document.querySelector("#win");
-const draw = document.querySelector("#draw");
-const lose = document.querySelector("#lose");
+window.addEventListener("DOMContentLoaded", begin);
 
-console.log(rock);
-console.log(comPlayer);
+let comChoice;
+let userChoice;
+const comPlayer = document.querySelector("#player1");
+const userPlayer = document.querySelector("#player2");
 
-// sørger for at der lyttes til om variablerne klikkes på og trigger herefter den tilknyttede funktion
-rock.addEventListener("mousedown", clickRock);
-scissor.addEventListener("mousedown", clickScissor);
-paper.addEventListener("mousedown", clickPaper);
+console.log("test");
 
-function clickRock() {
-  console.log("clickRock");
+comChose();
 
-  rock.removeEventListener("mousedown", clickRock);
-
-  // sætter de rystende hænder i gang når rock klikkes på
-  player1.classList.add("shake");
-  player2.classList.add("shake");
+function begin() {
+  document.querySelector("#win").classList.add("hidden");
+  document.querySelector("#lose").classList.add("hidden");
+  document.querySelector("#draw").classList.add("hidden");
+  eventBtns();
 }
 
-function clickScissor() {
-  console.log("clickScissor");
-
-  scissor.removeEventListener("mousedown", clickScissor);
-
-  // sætter de rystende hænder i gang når scissor klikkes på
-  player1.classList.add("shake");
-  player2.classList.add("shake");
-}
-
-function clickPaper() {
-  console.log("clickPaper");
-
-  paper.removeEventListener("mousedown", clickPaper);
-
-  // sætter de rystende hænder i gang når paper klikkes på
-  player1.classList.add("shake");
-  player2.classList.add("shake");
-
-  player1.addEventListener("animationend", giveResult);
-  player2.addEventListener("animationend", giveResult);
-}
-
-function giveResult() {
-  console.log("giveResult");
-
-  if (comPlayer === rock) {
-    comPlayer.classList.add(".player.rock");
+// denne funktion fortæller, hvilket nummer refererer til hvilken animation
+function comChose() {
+  const comGuess = Math.floor(Math.random() * 3);
+  if (comGuess === 0) {
+    comChoice = "rock";
+  } else if (comGuess === 1) {
+    comChoice = "paper";
+  } else {
+    comChoice = "scissor";
   }
 
-  // if (clickRock === comPlayer) {
-
-  // }
+  console.log(comChoice);
 }
 
-//   //fjerner alt på players
-//   player1.classList = "";
-//   player2.classList = "";
+function eventBtns() {
+  const rockBtn = document.querySelector(".rock");
+  const paperBtn = document.querySelector(".paper");
+  const scissorBtn = document.querySelector(".scissors");
 
-//   if (liv <= 0) {
-//     lose();
-//   } else if (score >= 10) {
-//     win();
-//   } else {
-//     draw();
-//   }
+  rockBtn.addEventListener("mousedown", playGame);
+  paperBtn.addEventListener("mousedown", playGame);
+  scissorBtn.addEventListener("mousedown", playGame);
+}
 
-// function win() {
-//   console.log("newScreen");
+function playGame() {
+  if (this.classList.contains("rock")) {
+    userChoice = "rock";
+  } else if (this.classList.contains("paper")) {
+    userChoice = "paper";
+  } else {
+    userChoice = "scissor";
+  }
 
-//   win.classList.remove("hidden");
-// }
+  console.log(userChoice);
+  handsShake();
+}
 
-// function draw() {
-//   console.log("newScreen");
+function handsShake() {
+  comPlayer.classList.remove("rock");
+  comPlayer.classList.remove("paper");
+  comPlayer.classList.remove("scissors");
 
-//   draw.classList.remove("hidden");
-// }
+  userPlayer.classList.remove("rock");
+  userPlayer.classList.remove("paper");
+  userPlayer.classList.remove("scissors");
 
-// function lose() {
-//   console.log("newScreen");
+  comPlayer.classList.add("shake");
+  userPlayer.classList.add("shake");
 
-//   lose.classList.remove("hidden");
-// }
+  userPlayer.addEventListener("animationend", handsStill);
+}
+
+function handsStill() {
+  comPlayer.classList.remove("shake");
+  userPlayer.classList.remove("shake");
+
+  if (userChoice === "rock") {
+    userPlayer.classList.add("rock");
+  } else if (userChoice === "paper") {
+    userPlayer.classList.add("paper");
+  } else userPlayer.classList.add("scissors");
+
+  if (comChoice === "rock") {
+    comPlayer.classList.add("rock");
+  } else if (comChoice === "paper") {
+    comPlayer.classList.add("paper");
+  } else comPlayer.classList.add("scissors");
+
+  endGame();
+}
+
+function endGame() {
+  let winner;
+
+  if (userChoice === "rock" && comChoice === "paper") {
+    winner = "com";
+  } else if (userChoice === "rock" && comChoice === "scissors") {
+    winner = "user";
+  } else if (userChoice === "paper" && comChoice === "rock") {
+    winner = "user";
+  } else if (userChoice === "paper" && comChoice === "scissors") {
+    winner = "com";
+  } else if (userChoice === "scissors" && comChoice === "rock") {
+    winner = "com";
+  } else if (userChoice === "scissors" && comChoice === "paper") {
+    winner = "user";
+  } else {
+    winner = "draw";
+  }
+  winnerIs(winner);
+}
+
+function winnerIs(winner) {
+  console.log(winner);
+  if (winner === "user") {
+    document.querySelector("#win").classList.remove("hidden");
+  } else if (winner === "com") {
+    document.querySelector("#lose").classList.remove("hidden");
+  } else {
+    document.querySelector("#draw").classList.remove("hidden");
+  }
+}
