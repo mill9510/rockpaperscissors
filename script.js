@@ -12,9 +12,6 @@ console.log("test");
 comChose();
 
 function begin() {
-  document.querySelector("#win").classList.add("hidden");
-  document.querySelector("#lose").classList.add("hidden");
-  document.querySelector("#draw").classList.add("hidden");
   eventBtns();
 }
 
