@@ -1,5 +1,6 @@
 "use strict";
 
+//når siden loades sættes funktionen begin i gang
 window.addEventListener("DOMContentLoaded", begin);
 
 let comChoice;
@@ -9,13 +10,14 @@ const userPlayer = document.querySelector("#player2");
 
 console.log("test");
 
+// sætter funktionen comChose, som bestemmer computerens valg, i gang
 comChose();
 
 function begin() {
   eventBtns();
 }
 
-// denne funktion fortæller, hvilket nummer refererer til hvilken animation
+// denne funktion fortæller, hvilket nummer refererer til hvilken animation og hvilket valg computeren træffer
 function comChose() {
   const comGuess = Math.floor(Math.random() * 3);
   if (comGuess === 0) {
@@ -29,6 +31,7 @@ function comChose() {
   console.log(comChoice);
 }
 
+// definerer knapperne og lytter efter, hvilken der klikkes på
 function eventBtns() {
   const rockBtn = document.querySelector(".rock");
   const paperBtn = document.querySelector(".paper");
@@ -39,6 +42,7 @@ function eventBtns() {
   scissorBtn.addEventListener("mousedown", playGame);
 }
 
+// denne funktion sættes i gang når der klikkes på en knap via playGame i funktionen ovenfor
 function playGame() {
   if (this.classList.contains("rock")) {
     userChoice = "rock";
@@ -49,9 +53,11 @@ function playGame() {
   }
 
   console.log(userChoice);
+  // sætter handsShake funktionen i gang
   handsShake();
 }
 
+// fjerner først classlist for så at sætte shake animationen på
 function handsShake() {
   comPlayer.classList.remove("rock");
   comPlayer.classList.remove("paper");
@@ -64,31 +70,37 @@ function handsShake() {
   comPlayer.classList.add("shake");
   userPlayer.classList.add("shake");
 
+  // når animationen er slut sættes handsStill funktionen i gang
   userPlayer.addEventListener("animationend", handsStill);
 }
 
 function handsStill() {
+  //fjerner animationen
   comPlayer.classList.remove("shake");
   userPlayer.classList.remove("shake");
 
+  // if sætning som fortæller hvad userChoice repræsenterer og putter rette valg på
   if (userChoice === "rock") {
     userPlayer.classList.add("rock");
   } else if (userChoice === "paper") {
     userPlayer.classList.add("paper");
   } else userPlayer.classList.add("scissors");
 
+  // if sætning som fortæller hvad comChoice repræsenterer og putter rette valg på
   if (comChoice === "rock") {
     comPlayer.classList.add("rock");
   } else if (comChoice === "paper") {
     comPlayer.classList.add("paper");
   } else comPlayer.classList.add("scissors");
 
+  //sætter endGame funktionen i gang
   endGame();
 }
 
 function endGame() {
   let winner;
 
+  // opstilling af mulige scenarier og udfald
   if (userChoice === "rock" && comChoice === "paper") {
     winner = "com";
   } else if (userChoice === "rock" && comChoice === "scissors") {
@@ -107,6 +119,7 @@ function endGame() {
   winnerIs(winner);
 }
 
+// tildeler rette tekst, når resultatet vises
 function winnerIs(winner) {
   console.log(winner);
   if (winner === "user") {
