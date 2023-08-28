@@ -37,9 +37,9 @@ function eventBtns() {
   const paperBtn = document.querySelector(".paper");
   const scissorBtn = document.querySelector(".scissors");
 
-  rockBtn.addEventListener("mousedown", playGame);
-  paperBtn.addEventListener("mousedown", playGame);
-  scissorBtn.addEventListener("mousedown", playGame);
+  rockBtn.addEventListener("click", playGame);
+  paperBtn.addEventListener("click", playGame);
+  scissorBtn.addEventListener("click", playGame);
 }
 
 // denne funktion sættes i gang når der klikkes på en knap via playGame i funktionen ovenfor
@@ -59,6 +59,10 @@ function playGame() {
 
 // fjerner først classlist for så at sætte shake animationen på
 function handsShake() {
+  document.querySelector("#win").classList.add("hidden");
+  document.querySelector("#lose").classList.add("hidden");
+  document.querySelector("#draw").classList.add("hidden");
+
   comPlayer.classList.remove("rock");
   comPlayer.classList.remove("paper");
   comPlayer.classList.remove("scissors");
